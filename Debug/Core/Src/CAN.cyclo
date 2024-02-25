@@ -1,0 +1,5 @@
+../Core/Src/CAN.c:10:6:TS_ECU_SYNC_RX1_FilterConfig	2
+../Core/Src/CAN.c:31:6:TS_ECU_SYNC_RX2_FilterConfig	2
+../Core/Src/CAN.c:52:6:TS_ECU_ChargingStateTrigFilterConfig	2
+../Core/Src/CAN.c:73:6:TS_ECU_SendDiagnosticData	3
+../Core/Src/CAN.c:98:6:TS_ECU_SendTemperatures	8
