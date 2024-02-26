@@ -38,6 +38,7 @@ typedef enum
 
 } ECU_StateType;
 
+// Define boolean variable
 typedef enum
 {
 	true = 1,
@@ -112,7 +113,6 @@ bool chargingTriggerFlag = false;
 bool syncOneFlag = false;
 bool syncTwoFlag = false;
 
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -122,9 +122,11 @@ static void MX_ADC1_Init(void);
 static void MX_CAN_Init(void);
 /* USER CODE BEGIN PFP */
 
-int getTempCH1(ADC_HandleTypeDef* hadc);
-int getTempCH2(ADC_HandleTypeDef* hadc);
+// ADC to Temperature conversion
+static int getTempCH1(ADC_HandleTypeDef* hadc);
+static int getTempCH2(ADC_HandleTypeDef* hadc);
 
+// CAN ISR
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
   /* Prevent unused argument(s) compilation warning */
@@ -143,6 +145,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
    */
 }
 
+// Fault ISR
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
   /* Prevent unused argument(s) compilation warning */
@@ -199,6 +202,7 @@ int main(void)
   MX_CAN_Init();
   /* USER CODE BEGIN 2 */
 
+  // Initial State
   ecuState = DISCHARGE_STATE;
 
   HAL_GPIO_WritePin(FAULT_PIN_PORT, FAULT_OUT_PIN, GPIO_PIN_SET);
@@ -207,10 +211,12 @@ int main(void)
 
   tx1_t.TS_ECU_FaultInState = HAL_GPIO_ReadPin(FAULT_PIN_PORT, FAULT_IN_PIN);
 
+  // Initialize CAN
   HAL_CAN_Start(&hcan);
 
   HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
 
+  // CAN Filter Configuration
   TS_ECU_ChargingStateTrigFilterConfig();
 
   TS_ECU_SYNC_RX1_FilterConfig();
@@ -226,6 +232,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  // CAN Message Processing
 	  if (msgPendingFlag == true)
 	  {
 		  if (rxHeaderFIFO0.StdId == TS_ECU_SYNC_RX1_CANID && (((dataFIFO0[0] & (0xFFU)) == (0x00U)) || ((dataFIFO0[0] & (0xFFU)) == SEGMENT_ID)))
@@ -257,6 +264,7 @@ int main(void)
 		  msgPendingFlag = false;
 	  }
 
+	  // Process Temperatures
 	  for (int s3 = 0; s3 <= 1; s3++)
 	  {
 		  for (int s2 = 0; s2 <= 1; s2++)
@@ -389,6 +397,7 @@ int main(void)
 
 	  averageSegmentTemp = (cellTempSum / CELL_COUNT);
 
+	  // Charging State Watchdog
 	  if (HAL_GetTick() - currentChargingTriggerTime > 5000)
 	  {
 		  ecuState = DISCHARGE_STATE;
@@ -396,6 +405,7 @@ int main(void)
 		  chargingTriggerFlag = false;
 	  }
 
+	  // Temperature Threshold Check
 	  switch (ecuState)
 	  {
 	  case DISCHARGE_STATE:
@@ -442,6 +452,7 @@ int main(void)
 		  break;
 	  }
 
+	  // Sync One Response
 	  if (syncOneFlag == true)
 	  {
 		  tx1_t.TS_ECU_AverageSegmentTemp = TS_ECU1_TX1_TS_ECU_AverageSegmentTemp_toS(averageSegmentTemp);
@@ -459,21 +470,23 @@ int main(void)
 			  tx1_t.TS_ECU_CurrentState = 1;
 		  }
 
-		  TS_ECU_SendDiagnosticData(&tx1_t);
+		  TS_ECU1_SendDiagnosticData(&tx1_t);
 
 		  syncOneFlag = false;
 	  }
 
+	  // Sync Two Response
 	  if (syncTwoFlag == true)
 	  {
 		  if (HAL_GetTick() - syncTwoTime > SYNC_TIME_SHIFT)
 		  {
-			  TS_ECU_SendTemperatures(tempArray);
+			  TS_ECU1_SendTemperatures(tempArray);
 
 			  syncTwoFlag = false;
 		  }
 	  }
 
+	  // Reset Counters
 	  highestTemp = DISCHARGE_TEMP_MIN_LIMIT;
 	  lowestTemp = DISCHARGE_TEMP_MAX_LIMIT;
 	  highestTempCellCount = 0;
@@ -680,7 +693,7 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-int getTempCH1(ADC_HandleTypeDef* hadc)
+static int getTempCH1(ADC_HandleTypeDef* hadc)
 {
 	uint32_t adcVal = 0;
 	float voltage = 0.0;
@@ -714,7 +727,7 @@ int getTempCH1(ADC_HandleTypeDef* hadc)
 	return temp;
 }
 
-int getTempCH2(ADC_HandleTypeDef* hadc)
+static int getTempCH2(ADC_HandleTypeDef* hadc)
 {
 	uint32_t adcVal = 0;
 	float voltage = 0.0;

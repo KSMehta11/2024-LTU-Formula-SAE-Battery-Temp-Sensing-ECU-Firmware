@@ -31,7 +31,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
  13 .debug_info   00008cda  00000000  00000000  000200ec  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 00001ad6  00000000  00000000  00028dc6  2**0
+ 14 .debug_abbrev 00001ad4  00000000  00000000  00028dc6  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  15 .debug_aranges 00000858  00000000  00000000  0002a8a0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -39,13 +39,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_macro  000181d4  00000000  00000000  0002b744  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00009d3c  00000000  00000000  00043918  2**0
+ 18 .debug_line   00009d3e  00000000  00000000  00043918  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    0008de6c  00000000  00000000  0004d654  2**0
+ 19 .debug_str    0008de6e  00000000  00000000  0004d656  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_frame  00002720  00000000  00000000  000db4c0  2**2
+ 20 .debug_frame  00002720  00000000  00000000  000db4c4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 0000008f  00000000  00000000  000ddbe0  2**0
+ 21 .debug_line_str 0000008f  00000000  00000000  000ddbe4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1097,9 +1097,9 @@ void TS_ECU_ChargingStateTrigFilterConfig(void)
  8000c0e:	bf00      	nop
  8000c10:	200000d0 	.word	0x200000d0
 
-08000c14 <TS_ECU_SendDiagnosticData>:
+08000c14 <TS_ECU1_SendDiagnosticData>:
 
-void TS_ECU_SendDiagnosticData(TS_ECU1_TX1_t* _tx1_t)
+void TS_ECU1_SendDiagnosticData(TS_ECU1_TX1_t* _tx1_t)
 {
  8000c14:	b580      	push	{r7, lr}
  8000c16:	b08c      	sub	sp, #48	; 0x30
@@ -1140,11 +1140,11 @@ void TS_ECU_SendDiagnosticData(TS_ECU1_TX1_t* _tx1_t)
  8000c4a:	f107 030c 	add.w	r3, r7, #12
  8000c4e:	f107 0210 	add.w	r2, r7, #16
  8000c52:	f107 0118 	add.w	r1, r7, #24
- 8000c56:	480b      	ldr	r0, [pc, #44]	; (8000c84 <TS_ECU_SendDiagnosticData+0x70>)
+ 8000c56:	480b      	ldr	r0, [pc, #44]	; (8000c84 <TS_ECU1_SendDiagnosticData+0x70>)
  8000c58:	f002 f84d 	bl	8002cf6 <HAL_CAN_AddTxMessage>
  8000c5c:	4603      	mov	r3, r0
  8000c5e:	2b00      	cmp	r3, #0
- 8000c60:	d001      	beq.n	8000c66 <TS_ECU_SendDiagnosticData+0x52>
+ 8000c60:	d001      	beq.n	8000c66 <TS_ECU1_SendDiagnosticData+0x52>
 	{
 		Error_Handler();
  8000c62:	f000 ff99 	bl	8001b98 <Error_Handler>
@@ -1154,11 +1154,11 @@ void TS_ECU_SendDiagnosticData(TS_ECU1_TX1_t* _tx1_t)
  8000c66:	bf00      	nop
  8000c68:	68fb      	ldr	r3, [r7, #12]
  8000c6a:	4619      	mov	r1, r3
- 8000c6c:	4805      	ldr	r0, [pc, #20]	; (8000c84 <TS_ECU_SendDiagnosticData+0x70>)
+ 8000c6c:	4805      	ldr	r0, [pc, #20]	; (8000c84 <TS_ECU1_SendDiagnosticData+0x70>)
  8000c6e:	f002 f911 	bl	8002e94 <HAL_CAN_IsTxMessagePending>
  8000c72:	4603      	mov	r3, r0
  8000c74:	2b00      	cmp	r3, #0
- 8000c76:	d1f7      	bne.n	8000c68 <TS_ECU_SendDiagnosticData+0x54>
+ 8000c76:	d1f7      	bne.n	8000c68 <TS_ECU1_SendDiagnosticData+0x54>
 
 }
  8000c78:	bf00      	nop
@@ -1169,9 +1169,9 @@ void TS_ECU_SendDiagnosticData(TS_ECU1_TX1_t* _tx1_t)
  8000c82:	bf00      	nop
  8000c84:	200000d0 	.word	0x200000d0
 
-08000c88 <TS_ECU_SendTemperatures>:
+08000c88 <TS_ECU1_SendTemperatures>:
 
-void TS_ECU_SendTemperatures(int* _tempArray)
+void TS_ECU1_SendTemperatures(int* _tempArray)
 {
  8000c88:	b580      	push	{r7, lr}
  8000c8a:	b09c      	sub	sp, #112	; 0x70
@@ -1184,7 +1184,7 @@ void TS_ECU_SendTemperatures(int* _tempArray)
     for(int i = 0; i < 8; i++) {
  8000c90:	2300      	movs	r3, #0
  8000c92:	66fb      	str	r3, [r7, #108]	; 0x6c
- 8000c94:	e02e      	b.n	8000cf4 <TS_ECU_SendTemperatures+0x6c>
+ 8000c94:	e02e      	b.n	8000cf4 <TS_ECU1_SendTemperatures+0x6c>
         dataTX2[i] = ((_tempArray[i] & (0xFFU)) + 40);
  8000c96:	6efb      	ldr	r3, [r7, #108]	; 0x6c
  8000c98:	009b      	lsls	r3, r3, #2
@@ -1235,7 +1235,7 @@ void TS_ECU_SendTemperatures(int* _tempArray)
  8000cf2:	66fb      	str	r3, [r7, #108]	; 0x6c
  8000cf4:	6efb      	ldr	r3, [r7, #108]	; 0x6c
  8000cf6:	2b07      	cmp	r3, #7
- 8000cf8:	ddcd      	ble.n	8000c96 <TS_ECU_SendTemperatures+0xe>
+ 8000cf8:	ddcd      	ble.n	8000c96 <TS_ECU1_SendTemperatures+0xe>
     }
 
     txHeaderOne.DLC = TS_ECU1_TX2_DLC;
@@ -1299,11 +1299,11 @@ void TS_ECU_SendTemperatures(int* _tempArray)
  8000d4e:	f107 0308 	add.w	r3, r7, #8
  8000d52:	f107 021c 	add.w	r2, r7, #28
  8000d56:	f107 0154 	add.w	r1, r7, #84	; 0x54
- 8000d5a:	4822      	ldr	r0, [pc, #136]	; (8000de4 <TS_ECU_SendTemperatures+0x15c>)
+ 8000d5a:	4822      	ldr	r0, [pc, #136]	; (8000de4 <TS_ECU1_SendTemperatures+0x15c>)
  8000d5c:	f001 ffcb 	bl	8002cf6 <HAL_CAN_AddTxMessage>
  8000d60:	4603      	mov	r3, r0
  8000d62:	2b00      	cmp	r3, #0
- 8000d64:	d001      	beq.n	8000d6a <TS_ECU_SendTemperatures+0xe2>
+ 8000d64:	d001      	beq.n	8000d6a <TS_ECU1_SendTemperatures+0xe2>
 	{
 		Error_Handler();
  8000d66:	f000 ff17 	bl	8001b98 <Error_Handler>
@@ -1313,21 +1313,21 @@ void TS_ECU_SendTemperatures(int* _tempArray)
  8000d6a:	bf00      	nop
  8000d6c:	68bb      	ldr	r3, [r7, #8]
  8000d6e:	4619      	mov	r1, r3
- 8000d70:	481c      	ldr	r0, [pc, #112]	; (8000de4 <TS_ECU_SendTemperatures+0x15c>)
+ 8000d70:	481c      	ldr	r0, [pc, #112]	; (8000de4 <TS_ECU1_SendTemperatures+0x15c>)
  8000d72:	f002 f88f 	bl	8002e94 <HAL_CAN_IsTxMessagePending>
  8000d76:	4603      	mov	r3, r0
  8000d78:	2b00      	cmp	r3, #0
- 8000d7a:	d1f7      	bne.n	8000d6c <TS_ECU_SendTemperatures+0xe4>
+ 8000d7a:	d1f7      	bne.n	8000d6c <TS_ECU1_SendTemperatures+0xe4>
 
 	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderTwo, dataTX3, &mailbox) != HAL_OK)
  8000d7c:	f107 0308 	add.w	r3, r7, #8
  8000d80:	f107 0214 	add.w	r2, r7, #20
  8000d84:	f107 013c 	add.w	r1, r7, #60	; 0x3c
- 8000d88:	4816      	ldr	r0, [pc, #88]	; (8000de4 <TS_ECU_SendTemperatures+0x15c>)
+ 8000d88:	4816      	ldr	r0, [pc, #88]	; (8000de4 <TS_ECU1_SendTemperatures+0x15c>)
  8000d8a:	f001 ffb4 	bl	8002cf6 <HAL_CAN_AddTxMessage>
  8000d8e:	4603      	mov	r3, r0
  8000d90:	2b00      	cmp	r3, #0
- 8000d92:	d001      	beq.n	8000d98 <TS_ECU_SendTemperatures+0x110>
+ 8000d92:	d001      	beq.n	8000d98 <TS_ECU1_SendTemperatures+0x110>
 	{
 		Error_Handler();
  8000d94:	f000 ff00 	bl	8001b98 <Error_Handler>
@@ -1337,21 +1337,21 @@ void TS_ECU_SendTemperatures(int* _tempArray)
  8000d98:	bf00      	nop
  8000d9a:	68bb      	ldr	r3, [r7, #8]
  8000d9c:	4619      	mov	r1, r3
- 8000d9e:	4811      	ldr	r0, [pc, #68]	; (8000de4 <TS_ECU_SendTemperatures+0x15c>)
+ 8000d9e:	4811      	ldr	r0, [pc, #68]	; (8000de4 <TS_ECU1_SendTemperatures+0x15c>)
  8000da0:	f002 f878 	bl	8002e94 <HAL_CAN_IsTxMessagePending>
  8000da4:	4603      	mov	r3, r0
  8000da6:	2b00      	cmp	r3, #0
- 8000da8:	d1f7      	bne.n	8000d9a <TS_ECU_SendTemperatures+0x112>
+ 8000da8:	d1f7      	bne.n	8000d9a <TS_ECU1_SendTemperatures+0x112>
 
 	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderThree, dataTX4, &mailbox) != HAL_OK)
  8000daa:	f107 0308 	add.w	r3, r7, #8
  8000dae:	f107 020c 	add.w	r2, r7, #12
  8000db2:	f107 0124 	add.w	r1, r7, #36	; 0x24
- 8000db6:	480b      	ldr	r0, [pc, #44]	; (8000de4 <TS_ECU_SendTemperatures+0x15c>)
+ 8000db6:	480b      	ldr	r0, [pc, #44]	; (8000de4 <TS_ECU1_SendTemperatures+0x15c>)
  8000db8:	f001 ff9d 	bl	8002cf6 <HAL_CAN_AddTxMessage>
  8000dbc:	4603      	mov	r3, r0
  8000dbe:	2b00      	cmp	r3, #0
- 8000dc0:	d001      	beq.n	8000dc6 <TS_ECU_SendTemperatures+0x13e>
+ 8000dc0:	d001      	beq.n	8000dc6 <TS_ECU1_SendTemperatures+0x13e>
 	{
 		Error_Handler();
  8000dc2:	f000 fee9 	bl	8001b98 <Error_Handler>
@@ -1361,11 +1361,11 @@ void TS_ECU_SendTemperatures(int* _tempArray)
  8000dc6:	bf00      	nop
  8000dc8:	68bb      	ldr	r3, [r7, #8]
  8000dca:	4619      	mov	r1, r3
- 8000dcc:	4805      	ldr	r0, [pc, #20]	; (8000de4 <TS_ECU_SendTemperatures+0x15c>)
+ 8000dcc:	4805      	ldr	r0, [pc, #20]	; (8000de4 <TS_ECU1_SendTemperatures+0x15c>)
  8000dce:	f002 f861 	bl	8002e94 <HAL_CAN_IsTxMessagePending>
  8000dd2:	4603      	mov	r3, r0
  8000dd4:	2b00      	cmp	r3, #0
- 8000dd6:	d1f7      	bne.n	8000dc8 <TS_ECU_SendTemperatures+0x140>
+ 8000dd6:	d1f7      	bne.n	8000dc8 <TS_ECU1_SendTemperatures+0x140>
 }
  8000dd8:	bf00      	nop
  8000dda:	bf00      	nop
@@ -1376,10 +1376,10 @@ void TS_ECU_SendTemperatures(int* _tempArray)
  8000de4:	200000d0 	.word	0x200000d0
 
 08000de8 <HAL_CAN_RxFifo0MsgPendingCallback>:
+static int getTempCH1(ADC_HandleTypeDef* hadc);
+static int getTempCH2(ADC_HandleTypeDef* hadc);
 
-int getTempCH1(ADC_HandleTypeDef* hadc);
-int getTempCH2(ADC_HandleTypeDef* hadc);
-
+// CAN ISR
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
  8000de8:	b580      	push	{r7, lr}
@@ -1424,6 +1424,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 
 08000e24 <HAL_GPIO_EXTI_Callback>:
 
+// Fault ISR
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
  8000e24:	b580      	push	{r7, lr}
@@ -1509,6 +1510,7 @@ int main(void)
  8000e86:	f000 fbf3 	bl	8001670 <MX_CAN_Init>
   /* USER CODE BEGIN 2 */
 
+  // Initial State
   ecuState = DISCHARGE_STATE;
  8000e8a:	4b89      	ldr	r3, [pc, #548]	; (80010b0 <main+0x240>)
  8000e8c:	2201      	movs	r2, #1
@@ -1539,6 +1541,7 @@ int main(void)
  8000eba:	4b7f      	ldr	r3, [pc, #508]	; (80010b8 <main+0x248>)
  8000ebc:	71da      	strb	r2, [r3, #7]
 
+  // Initialize CAN
   HAL_CAN_Start(&hcan);
  8000ebe:	487f      	ldr	r0, [pc, #508]	; (80010bc <main+0x24c>)
  8000ec0:	f001 fed5 	bl	8002c6e <HAL_CAN_Start>
@@ -1548,6 +1551,7 @@ int main(void)
  8000ec6:	487d      	ldr	r0, [pc, #500]	; (80010bc <main+0x24c>)
  8000ec8:	f002 f928 	bl	800311c <HAL_CAN_ActivateNotification>
 
+  // CAN Filter Configuration
   TS_ECU_ChargingStateTrigFilterConfig();
  8000ecc:	f7ff fe78 	bl	8000bc0 <TS_ECU_ChargingStateTrigFilterConfig>
 
@@ -1565,11 +1569,11 @@ int main(void)
  8000ede:	4b76      	ldr	r3, [pc, #472]	; (80010b8 <main+0x248>)
  8000ee0:	2200      	movs	r2, #0
  8000ee2:	725a      	strb	r2, [r3, #9]
-
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  // CAN Message Processing
 	  if (msgPendingFlag == true)
  8000ee4:	4b76      	ldr	r3, [pc, #472]	; (80010c0 <main+0x250>)
  8000ee6:	781b      	ldrb	r3, [r3, #0]
@@ -1674,6 +1678,7 @@ int main(void)
  8000f80:	701a      	strb	r2, [r3, #0]
 	  }
 
+	  // Process Temperatures
 	  for (int s3 = 0; s3 <= 1; s3++)
  8000f82:	2300      	movs	r3, #0
  8000f84:	60fb      	str	r3, [r7, #12]
@@ -2187,6 +2192,7 @@ int main(void)
  80012fc:	4a17      	ldr	r2, [pc, #92]	; (800135c <main+0x4ec>)
  80012fe:	6013      	str	r3, [r2, #0]
 
+	  // Charging State Watchdog
 	  if (HAL_GetTick() - currentChargingTriggerTime > 5000)
  8001300:	f000 fe90 	bl	8002024 <HAL_GetTick>
  8001304:	4602      	mov	r2, r0
@@ -2208,6 +2214,7 @@ int main(void)
  800131e:	701a      	strb	r2, [r3, #0]
 	  }
 
+	  // Temperature Threshold Check
 	  switch (ecuState)
  8001320:	4b10      	ldr	r3, [pc, #64]	; (8001364 <main+0x4f4>)
  8001322:	781b      	ldrb	r3, [r3, #0]
@@ -2358,6 +2365,7 @@ int main(void)
  8001412:	bf00      	nop
 	  }
 
+	  // Sync One Response
 	  if (syncOneFlag == true)
  8001414:	4b37      	ldr	r3, [pc, #220]	; (80014f4 <main+0x684>)
  8001416:	781b      	ldrb	r3, [r3, #0]
@@ -2429,9 +2437,9 @@ int main(void)
  8001482:	731a      	strb	r2, [r3, #12]
 		  }
 
-		  TS_ECU_SendDiagnosticData(&tx1_t);
+		  TS_ECU1_SendDiagnosticData(&tx1_t);
  8001484:	481a      	ldr	r0, [pc, #104]	; (80014f0 <main+0x680>)
- 8001486:	f7ff fbc5 	bl	8000c14 <TS_ECU_SendDiagnosticData>
+ 8001486:	f7ff fbc5 	bl	8000c14 <TS_ECU1_SendDiagnosticData>
 
 		  syncOneFlag = false;
  800148a:	4b1a      	ldr	r3, [pc, #104]	; (80014f4 <main+0x684>)
@@ -2439,6 +2447,7 @@ int main(void)
  800148e:	701a      	strb	r2, [r3, #0]
 	  }
 
+	  // Sync Two Response
 	  if (syncTwoFlag == true)
  8001490:	4b1c      	ldr	r3, [pc, #112]	; (8001504 <main+0x694>)
  8001492:	781b      	ldrb	r3, [r3, #0]
@@ -2454,9 +2463,9 @@ int main(void)
  80014a4:	f5b3 7ffa 	cmp.w	r3, #500	; 0x1f4
  80014a8:	d905      	bls.n	80014b6 <main+0x646>
 		  {
-			  TS_ECU_SendTemperatures(tempArray);
+			  TS_ECU1_SendTemperatures(tempArray);
  80014aa:	4818      	ldr	r0, [pc, #96]	; (800150c <main+0x69c>)
- 80014ac:	f7ff fbec 	bl	8000c88 <TS_ECU_SendTemperatures>
+ 80014ac:	f7ff fbec 	bl	8000c88 <TS_ECU1_SendTemperatures>
 
 			  syncTwoFlag = false;
  80014b0:	4b14      	ldr	r3, [pc, #80]	; (8001504 <main+0x694>)
@@ -2465,6 +2474,7 @@ int main(void)
 		  }
 	  }
 
+	  // Reset Counters
 	  highestTemp = DISCHARGE_TEMP_MIN_LIMIT;
  80014b6:	4b0a      	ldr	r3, [pc, #40]	; (80014e0 <main+0x670>)
  80014b8:	f06f 0213 	mvn.w	r2, #19
@@ -2997,7 +3007,7 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-int getTempCH1(ADC_HandleTypeDef* hadc)
+static int getTempCH1(ADC_HandleTypeDef* hadc)
 {
  80017e8:	b5b0      	push	{r4, r5, r7, lr}
  80017ea:	b088      	sub	sp, #32
@@ -3205,7 +3215,7 @@ int getTempCH1(ADC_HandleTypeDef* hadc)
 
 080019c0 <getTempCH2>:
 
-int getTempCH2(ADC_HandleTypeDef* hadc)
+static int getTempCH2(ADC_HandleTypeDef* hadc)
 {
  80019c0:	b5b0      	push	{r4, r5, r7, lr}
  80019c2:	b088      	sub	sp, #32

@@ -70,7 +70,7 @@ void TS_ECU_ChargingStateTrigFilterConfig(void)
 	}
 }
 
-void TS_ECU_SendDiagnosticData(TS_ECU1_TX1_t* _tx1_t)
+void TS_ECU1_SendDiagnosticData(TS_ECU1_TX1_t* _tx1_t)
 {
 	CAN_TxHeaderTypeDef txHeader;
 	uint8_t data[5];
@@ -95,7 +95,7 @@ void TS_ECU_SendDiagnosticData(TS_ECU1_TX1_t* _tx1_t)
 
 }
 
-void TS_ECU_SendTemperatures(int* _tempArray)
+void TS_ECU1_SendTemperatures(int* _tempArray)
 {
 	CAN_TxHeaderTypeDef txHeaderOne, txHeaderTwo, txHeaderThree;
 	uint8_t dataTX2[8], dataTX3[8], dataTX4[8];

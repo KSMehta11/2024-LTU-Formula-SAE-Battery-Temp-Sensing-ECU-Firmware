@@ -1,5 +1,5 @@
 ../Core/Src/CAN.c:10:6:TS_ECU_SYNC_RX1_FilterConfig	48	static
 ../Core/Src/CAN.c:31:6:TS_ECU_SYNC_RX2_FilterConfig	48	static
 ../Core/Src/CAN.c:52:6:TS_ECU_ChargingStateTrigFilterConfig	48	static
-../Core/Src/CAN.c:73:6:TS_ECU_SendDiagnosticData	56	static
-../Core/Src/CAN.c:98:6:TS_ECU_SendTemperatures	120	static
+../Core/Src/CAN.c:73:6:TS_ECU1_SendDiagnosticData	56	static
+../Core/Src/CAN.c:98:6:TS_ECU1_SendTemperatures	120	static
