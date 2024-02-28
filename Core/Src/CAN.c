@@ -95,6 +95,102 @@ void TS_ECU1_SendDiagnosticData(TS_ECU1_TX1_t* _tx1_t)
 
 }
 
+void TS_ECU2_SendDiagnosticData(TS_ECU1_TX1_t* _tx1_t)
+{
+	CAN_TxHeaderTypeDef txHeader;
+	uint8_t data[5];
+	uint32_t mailbox;
+	uint8_t dlc, ide;
+
+	Pack_TS_ECU1_TX1_Temp(_tx1_t, data, &dlc, &ide);
+
+	txHeader.DLC = TS_ECU2_TX1_DLC;
+	txHeader.ExtId = DISABLE;
+	txHeader.IDE = TS_ECU2_TX1_IDE;
+	txHeader.RTR = CAN_RTR_DATA;
+	txHeader.StdId = TS_ECU2_TX1_CANID;
+	txHeader.TransmitGlobalTime = DISABLE;
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeader, data, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+}
+
+void TS_ECU3_SendDiagnosticData(TS_ECU1_TX1_t* _tx1_t)
+{
+	CAN_TxHeaderTypeDef txHeader;
+	uint8_t data[5];
+	uint32_t mailbox;
+	uint8_t dlc, ide;
+
+	Pack_TS_ECU1_TX1_Temp(_tx1_t, data, &dlc, &ide);
+
+	txHeader.DLC = TS_ECU3_TX1_DLC;
+	txHeader.ExtId = DISABLE;
+	txHeader.IDE = TS_ECU3_TX1_IDE;
+	txHeader.RTR = CAN_RTR_DATA;
+	txHeader.StdId = TS_ECU3_TX1_CANID;
+	txHeader.TransmitGlobalTime = DISABLE;
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeader, data, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+}
+
+void TS_ECU4_SendDiagnosticData(TS_ECU1_TX1_t* _tx1_t)
+{
+	CAN_TxHeaderTypeDef txHeader;
+	uint8_t data[5];
+	uint32_t mailbox;
+	uint8_t dlc, ide;
+
+	Pack_TS_ECU1_TX1_Temp(_tx1_t, data, &dlc, &ide);
+
+	txHeader.DLC = TS_ECU4_TX1_DLC;
+	txHeader.ExtId = DISABLE;
+	txHeader.IDE = TS_ECU4_TX1_IDE;
+	txHeader.RTR = CAN_RTR_DATA;
+	txHeader.StdId = TS_ECU4_TX1_CANID;
+	txHeader.TransmitGlobalTime = DISABLE;
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeader, data, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+}
+
+void TS_ECU5_SendDiagnosticData(TS_ECU1_TX1_t* _tx1_t)
+{
+	CAN_TxHeaderTypeDef txHeader;
+	uint8_t data[5];
+	uint32_t mailbox;
+	uint8_t dlc, ide;
+
+	Pack_TS_ECU1_TX1_Temp(_tx1_t, data, &dlc, &ide);
+
+	txHeader.DLC = TS_ECU5_TX1_DLC;
+	txHeader.ExtId = DISABLE;
+	txHeader.IDE = TS_ECU5_TX1_IDE;
+	txHeader.RTR = CAN_RTR_DATA;
+	txHeader.StdId = TS_ECU5_TX1_CANID;
+	txHeader.TransmitGlobalTime = DISABLE;
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeader, data, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+}
+
 void TS_ECU1_SendTemperatures(int* _tempArray)
 {
 	CAN_TxHeaderTypeDef txHeaderOne, txHeaderTwo, txHeaderThree;
@@ -126,6 +222,226 @@ void TS_ECU1_SendTemperatures(int* _tempArray)
     txHeaderThree.IDE = TS_ECU1_TX4_IDE;
     txHeaderThree.RTR = CAN_RTR_DATA;
     txHeaderThree.StdId = TS_ECU1_TX4_CANID;
+    txHeaderThree.TransmitGlobalTime = DISABLE;
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderOne, dataTX2, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderTwo, dataTX3, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderThree, dataTX4, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+}
+
+void TS_ECU2_SendTemperatures(int* _tempArray)
+{
+	CAN_TxHeaderTypeDef txHeaderOne, txHeaderTwo, txHeaderThree;
+	uint8_t dataTX2[8], dataTX3[8], dataTX4[8];
+	uint32_t mailbox;
+
+    for(int i = 0; i < 8; i++) {
+        dataTX2[i] = ((_tempArray[i] & (0xFFU)) + 40);
+        dataTX3[i] = ((_tempArray[i + 8] & (0xFFU)) + 40);
+        dataTX4[i] = ((_tempArray[i + 16] & (0xFFU)) + 40);
+    }
+
+    txHeaderOne.DLC = TS_ECU2_TX2_DLC;
+    txHeaderOne.ExtId = DISABLE;
+    txHeaderOne.IDE = TS_ECU2_TX2_IDE;
+    txHeaderOne.RTR = CAN_RTR_DATA;
+    txHeaderOne.StdId = TS_ECU2_TX2_CANID;
+    txHeaderOne.TransmitGlobalTime = DISABLE;
+
+    txHeaderTwo.DLC = TS_ECU2_TX3_DLC;
+    txHeaderTwo.ExtId = DISABLE;
+    txHeaderTwo.IDE = TS_ECU2_TX3_IDE;
+    txHeaderTwo.RTR = CAN_RTR_DATA;
+    txHeaderTwo.StdId = TS_ECU2_TX3_CANID;
+    txHeaderTwo.TransmitGlobalTime = DISABLE;
+
+    txHeaderThree.DLC = TS_ECU2_TX4_DLC;
+    txHeaderThree.ExtId = DISABLE;
+    txHeaderThree.IDE = TS_ECU2_TX4_IDE;
+    txHeaderThree.RTR = CAN_RTR_DATA;
+    txHeaderThree.StdId = TS_ECU2_TX4_CANID;
+    txHeaderThree.TransmitGlobalTime = DISABLE;
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderOne, dataTX2, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderTwo, dataTX3, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderThree, dataTX4, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+}
+
+void TS_ECU3_SendTemperatures(int* _tempArray)
+{
+	CAN_TxHeaderTypeDef txHeaderOne, txHeaderTwo, txHeaderThree;
+	uint8_t dataTX2[8], dataTX3[8], dataTX4[8];
+	uint32_t mailbox;
+
+    for(int i = 0; i < 8; i++) {
+        dataTX2[i] = ((_tempArray[i] & (0xFFU)) + 40);
+        dataTX3[i] = ((_tempArray[i + 8] & (0xFFU)) + 40);
+        dataTX4[i] = ((_tempArray[i + 16] & (0xFFU)) + 40);
+    }
+
+    txHeaderOne.DLC = TS_ECU3_TX2_DLC;
+    txHeaderOne.ExtId = DISABLE;
+    txHeaderOne.IDE = TS_ECU3_TX2_IDE;
+    txHeaderOne.RTR = CAN_RTR_DATA;
+    txHeaderOne.StdId = TS_ECU3_TX2_CANID;
+    txHeaderOne.TransmitGlobalTime = DISABLE;
+
+    txHeaderTwo.DLC = TS_ECU3_TX3_DLC;
+    txHeaderTwo.ExtId = DISABLE;
+    txHeaderTwo.IDE = TS_ECU3_TX3_IDE;
+    txHeaderTwo.RTR = CAN_RTR_DATA;
+    txHeaderTwo.StdId = TS_ECU3_TX3_CANID;
+    txHeaderTwo.TransmitGlobalTime = DISABLE;
+
+    txHeaderThree.DLC = TS_ECU3_TX4_DLC;
+    txHeaderThree.ExtId = DISABLE;
+    txHeaderThree.IDE = TS_ECU3_TX4_IDE;
+    txHeaderThree.RTR = CAN_RTR_DATA;
+    txHeaderThree.StdId = TS_ECU3_TX4_CANID;
+    txHeaderThree.TransmitGlobalTime = DISABLE;
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderOne, dataTX2, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderTwo, dataTX3, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderThree, dataTX4, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+}
+
+void TS_ECU4_SendTemperatures(int* _tempArray)
+{
+	CAN_TxHeaderTypeDef txHeaderOne, txHeaderTwo, txHeaderThree;
+	uint8_t dataTX2[8], dataTX3[8], dataTX4[8];
+	uint32_t mailbox;
+
+    for(int i = 0; i < 8; i++) {
+        dataTX2[i] = ((_tempArray[i] & (0xFFU)) + 40);
+        dataTX3[i] = ((_tempArray[i + 8] & (0xFFU)) + 40);
+        dataTX4[i] = ((_tempArray[i + 16] & (0xFFU)) + 40);
+    }
+
+    txHeaderOne.DLC = TS_ECU4_TX2_DLC;
+    txHeaderOne.ExtId = DISABLE;
+    txHeaderOne.IDE = TS_ECU4_TX2_IDE;
+    txHeaderOne.RTR = CAN_RTR_DATA;
+    txHeaderOne.StdId = TS_ECU4_TX2_CANID;
+    txHeaderOne.TransmitGlobalTime = DISABLE;
+
+    txHeaderTwo.DLC = TS_ECU4_TX3_DLC;
+    txHeaderTwo.ExtId = DISABLE;
+    txHeaderTwo.IDE = TS_ECU4_TX3_IDE;
+    txHeaderTwo.RTR = CAN_RTR_DATA;
+    txHeaderTwo.StdId = TS_ECU4_TX3_CANID;
+    txHeaderTwo.TransmitGlobalTime = DISABLE;
+
+    txHeaderThree.DLC = TS_ECU4_TX4_DLC;
+    txHeaderThree.ExtId = DISABLE;
+    txHeaderThree.IDE = TS_ECU4_TX4_IDE;
+    txHeaderThree.RTR = CAN_RTR_DATA;
+    txHeaderThree.StdId = TS_ECU4_TX4_CANID;
+    txHeaderThree.TransmitGlobalTime = DISABLE;
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderOne, dataTX2, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderTwo, dataTX3, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+
+	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderThree, dataTX4, &mailbox) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	while (HAL_CAN_IsTxMessagePending(&hcan, mailbox));
+}
+
+void TS_ECU5_SendTemperatures(int* _tempArray)
+{
+	CAN_TxHeaderTypeDef txHeaderOne, txHeaderTwo, txHeaderThree;
+	uint8_t dataTX2[8], dataTX3[8], dataTX4[8];
+	uint32_t mailbox;
+
+    for(int i = 0; i < 8; i++) {
+        dataTX2[i] = ((_tempArray[i] & (0xFFU)) + 40);
+        dataTX3[i] = ((_tempArray[i + 8] & (0xFFU)) + 40);
+        dataTX4[i] = ((_tempArray[i + 16] & (0xFFU)) + 40);
+    }
+
+    txHeaderOne.DLC = TS_ECU5_TX2_DLC;
+    txHeaderOne.ExtId = DISABLE;
+    txHeaderOne.IDE = TS_ECU5_TX2_IDE;
+    txHeaderOne.RTR = CAN_RTR_DATA;
+    txHeaderOne.StdId = TS_ECU5_TX2_CANID;
+    txHeaderOne.TransmitGlobalTime = DISABLE;
+
+    txHeaderTwo.DLC = TS_ECU5_TX3_DLC;
+    txHeaderTwo.ExtId = DISABLE;
+    txHeaderTwo.IDE = TS_ECU5_TX3_IDE;
+    txHeaderTwo.RTR = CAN_RTR_DATA;
+    txHeaderTwo.StdId = TS_ECU5_TX3_CANID;
+    txHeaderTwo.TransmitGlobalTime = DISABLE;
+
+    txHeaderThree.DLC = TS_ECU5_TX4_DLC;
+    txHeaderThree.ExtId = DISABLE;
+    txHeaderThree.IDE = TS_ECU5_TX4_IDE;
+    txHeaderThree.RTR = CAN_RTR_DATA;
+    txHeaderThree.StdId = TS_ECU5_TX4_CANID;
     txHeaderThree.TransmitGlobalTime = DISABLE;
 
 	if (HAL_CAN_AddTxMessage(&hcan, &txHeaderOne, dataTX2, &mailbox) != HAL_OK)

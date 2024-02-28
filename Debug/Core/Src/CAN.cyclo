@@ -2,4 +2,12 @@
 ../Core/Src/CAN.c:31:6:TS_ECU_SYNC_RX2_FilterConfig	2
 ../Core/Src/CAN.c:52:6:TS_ECU_ChargingStateTrigFilterConfig	2
 ../Core/Src/CAN.c:73:6:TS_ECU1_SendDiagnosticData	3
-../Core/Src/CAN.c:98:6:TS_ECU1_SendTemperatures	8
+../Core/Src/CAN.c:98:6:TS_ECU2_SendDiagnosticData	3
+../Core/Src/CAN.c:122:6:TS_ECU3_SendDiagnosticData	3
+../Core/Src/CAN.c:146:6:TS_ECU4_SendDiagnosticData	3
+../Core/Src/CAN.c:170:6:TS_ECU5_SendDiagnosticData	3
+../Core/Src/CAN.c:194:6:TS_ECU1_SendTemperatures	8
+../Core/Src/CAN.c:249:6:TS_ECU2_SendTemperatures	8
+../Core/Src/CAN.c:304:6:TS_ECU3_SendTemperatures	8
+../Core/Src/CAN.c:359:6:TS_ECU4_SendTemperatures	8
+../Core/Src/CAN.c:414:6:TS_ECU5_SendTemperatures	8

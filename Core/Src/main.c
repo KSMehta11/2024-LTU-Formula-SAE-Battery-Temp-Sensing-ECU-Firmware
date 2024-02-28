@@ -65,7 +65,11 @@ ECU_StateType ecuState;
 
 #define CELL_COUNT 24
 
-#define SYNC_TIME_SHIFT 500
+#define SYNC_TIME_SHIFT_ECU1 5
+#define SYNC_TIME_SHIFT_ECU2 10
+#define SYNC_TIME_SHIFT_ECU3 15
+#define SYNC_TIME_SHIFT_ECU4 20
+#define SYNC_TIME_SHIFT_ECU5 25
 
 /* USER CODE END PD */
 
@@ -79,12 +83,18 @@ ADC_HandleTypeDef hadc1;
 
 CAN_HandleTypeDef hcan;
 
+IWDG_HandleTypeDef hiwdg;
+
 /* USER CODE BEGIN PV */
 
 // Temp Sense RCU Fault
 const uint16_t FAULT_IN_PIN = GPIO_PIN_9;
 const uint16_t FAULT_OUT_PIN = GPIO_PIN_8;
 GPIO_TypeDef* FAULT_PIN_PORT = GPIOB;
+
+// Watchdog
+const uint16_t WATCHDOG_LED_PIN = GPIO_PIN_13;
+GPIO_TypeDef* WATCHDOG_LED_PIN_PORT = GPIOC;
 
 // Temperature Collection and Processing
 int highestTemp = DISCHARGE_TEMP_MIN_LIMIT, lowestTemp = DISCHARGE_TEMP_MAX_LIMIT, tempArray[24] = { 0 };
@@ -120,6 +130,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_CAN_Init(void);
+static void MX_IWDG_Init(void);
 /* USER CODE BEGIN PFP */
 
 // ADC to Temperature conversion
@@ -200,6 +211,7 @@ int main(void)
   MX_GPIO_Init();
   MX_ADC1_Init();
   MX_CAN_Init();
+  MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
 
   // Initial State
@@ -225,6 +237,13 @@ int main(void)
 
   tx1_t.TS_ECU_OpenCircuitFault = false;
   tx1_t.TS_ECU_TempThresholdFault = false;
+
+  HAL_Delay(100);
+
+  HAL_GPIO_WritePin(WATCHDOG_LED_PIN_PORT, WATCHDOG_LED_PIN, GPIO_PIN_RESET);
+
+  // Enable Watchdog
+  HAL_IWDG_Init(&hiwdg);
 
   /* USER CODE END 2 */
 
@@ -470,7 +489,29 @@ int main(void)
 			  tx1_t.TS_ECU_CurrentState = 1;
 		  }
 
-		  TS_ECU1_SendDiagnosticData(&tx1_t);
+		  if (SEGMENT_ID == (0x01U))
+		  {
+			  TS_ECU1_SendDiagnosticData(&tx1_t);
+		  }
+		  else if (SEGMENT_ID == (0x02U))
+		  {
+
+			  TS_ECU2_SendDiagnosticData(&tx1_t);
+		  }
+		  else if (SEGMENT_ID == (0x03U))
+		  {
+
+			  TS_ECU3_SendDiagnosticData(&tx1_t);
+		  }
+		  else if (SEGMENT_ID == (0x04U))
+		  {
+
+			  TS_ECU4_SendDiagnosticData(&tx1_t);
+		  }
+		  else
+		  {
+			  TS_ECU4_SendDiagnosticData(&tx1_t);
+		  }
 
 		  syncOneFlag = false;
 	  }
@@ -478,11 +519,50 @@ int main(void)
 	  // Sync Two Response
 	  if (syncTwoFlag == true)
 	  {
-		  if (HAL_GetTick() - syncTwoTime > SYNC_TIME_SHIFT)
+		  if (SEGMENT_ID == (0x01U))
 		  {
-			  TS_ECU1_SendTemperatures(tempArray);
+			  if (HAL_GetTick() - syncTwoTime > SYNC_TIME_SHIFT_ECU1)
+			  {
+				  TS_ECU1_SendTemperatures(tempArray);
 
-			  syncTwoFlag = false;
+				  syncTwoFlag = false;
+			  }
+		  }
+		  else if (SEGMENT_ID == (0x02U))
+		  {
+			  if (HAL_GetTick() - syncTwoTime > SYNC_TIME_SHIFT_ECU2)
+			  {
+				  TS_ECU2_SendTemperatures(tempArray);
+
+				  syncTwoFlag = false;
+			  }
+		  }
+		  else if (SEGMENT_ID == (0x03U))
+		  {
+			  if (HAL_GetTick() - syncTwoTime > SYNC_TIME_SHIFT_ECU3)
+			  {
+				  TS_ECU3_SendTemperatures(tempArray);
+
+				  syncTwoFlag = false;
+			  }
+		  }
+		  else if (SEGMENT_ID == (0x04U))
+		  {
+			  if (HAL_GetTick() - syncTwoTime > SYNC_TIME_SHIFT_ECU4)
+			  {
+				  TS_ECU4_SendTemperatures(tempArray);
+
+				  syncTwoFlag = false;
+			  }
+		  }
+		  else
+		  {
+			  if (HAL_GetTick() - syncTwoTime > SYNC_TIME_SHIFT_ECU5)
+			  {
+				  TS_ECU5_SendTemperatures(tempArray);
+
+				  syncTwoFlag = false;
+			  }
 		  }
 	  }
 
@@ -493,6 +573,9 @@ int main(void)
 	  cellTempSum = 0;
 	  counterCH1 = 0;
 	  counterCH2 = 12;
+
+	  // Reset Watchdog Counter
+	  HAL_IWDG_Refresh(&hiwdg);
 
     /* USER CODE END WHILE */
 
@@ -514,10 +597,11 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
@@ -641,6 +725,34 @@ static void MX_CAN_Init(void)
 }
 
 /**
+  * @brief IWDG Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_IWDG_Init(void)
+{
+
+  /* USER CODE BEGIN IWDG_Init 0 */
+
+  /* USER CODE END IWDG_Init 0 */
+
+  /* USER CODE BEGIN IWDG_Init 1 */
+
+  /* USER CODE END IWDG_Init 1 */
+  hiwdg.Instance = IWDG;
+  hiwdg.Init.Prescaler = IWDG_PRESCALER_4;
+  hiwdg.Init.Reload = 300;
+  if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN IWDG_Init 2 */
+
+  /* USER CODE END IWDG_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -658,10 +770,20 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : PC13 */
+  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PA3 PA4 PA5 PA6 */
   GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6;
@@ -774,7 +896,7 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
-	  HAL_GPIO_WritePin(FAULT_PIN_PORT, FAULT_OUT_PIN, GPIO_PIN_RESET);
+
   }
   /* USER CODE END Error_Handler_Debug */
 }
