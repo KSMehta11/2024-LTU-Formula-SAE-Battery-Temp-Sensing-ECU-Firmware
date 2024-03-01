@@ -41,11 +41,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  18 .debug_line   0000aa65  00000000  00000000  00044582  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    0008e5c7  00000000  00000000  0004efe7  2**0
+ 19 .debug_str    0008e5ca  00000000  00000000  0004efe7  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_frame  000028b4  00000000  00000000  000dd5b0  2**2
+ 20 .debug_frame  000028b4  00000000  00000000  000dd5b4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 0000008f  00000000  00000000  000dfe64  2**0
+ 21 .debug_line_str 0000008f  00000000  00000000  000dfe68  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -2492,7 +2492,7 @@ int main(void)
  80014c6:	4b1b      	ldr	r3, [pc, #108]	; (8001534 <main+0x6c4>)
  80014c8:	681b      	ldr	r3, [r3, #0]
  80014ca:	1ad3      	subs	r3, r2, r3
- 80014cc:	2b05      	cmp	r3, #5
+ 80014cc:	2b19      	cmp	r3, #25
  80014ce:	d905      	bls.n	80014dc <main+0x66c>
 			  {
 				  TS_ECU1_SendTemperatures(tempArray);

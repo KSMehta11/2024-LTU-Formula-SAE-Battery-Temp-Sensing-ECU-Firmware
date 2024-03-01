@@ -3845,36 +3845,36 @@ LOAD C:/ST/STM32CubeIDE_1.14.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_line    0x000000000000938a      0xdd0 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.o
  .debug_line    0x000000000000a15a      0x90b ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.o
 
-.debug_str      0x0000000000000000    0x8e5c7
+.debug_str      0x0000000000000000    0x8e5ca
  .debug_str     0x0000000000000000    0x88191 ./Core/Src/CAN.o
                                       0x88519 (size before relaxing)
- .debug_str     0x0000000000088191     0x469b ./Core/Src/main.o
-                                      0x8ca39 (size before relaxing)
- .debug_str     0x000000000008c82c       0xb8 ./Core/Src/stm32f1xx_hal_msp.o
+ .debug_str     0x0000000000088191     0x469e ./Core/Src/main.o
+                                      0x8ca3c (size before relaxing)
+ .debug_str     0x000000000008c82f       0xb8 ./Core/Src/stm32f1xx_hal_msp.o
                                       0x825ff (size before relaxing)
- .debug_str     0x000000000008c8e4      0x11c ./Core/Src/stm32f1xx_it.o
+ .debug_str     0x000000000008c8e7      0x11c ./Core/Src/stm32f1xx_it.o
                                       0x82019 (size before relaxing)
- .debug_str     0x000000000008ca00       0x7e ./Core/Src/system_stm32f1xx.o
+ .debug_str     0x000000000008ca03       0x7e ./Core/Src/system_stm32f1xx.o
                                       0x81cfa (size before relaxing)
- .debug_str     0x000000000008ca7e      0x7ef ./Core/Src/temp.o
+ .debug_str     0x000000000008ca81      0x7ef ./Core/Src/temp.o
                                        0xa858 (size before relaxing)
- .debug_str     0x000000000008d26d       0x34 ./Core/Startup/startup_stm32f103c8tx.o
+ .debug_str     0x000000000008d270       0x34 ./Core/Startup/startup_stm32f103c8tx.o
                                          0x9b (size before relaxing)
- .debug_str     0x000000000008d2a1      0x378 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
+ .debug_str     0x000000000008d2a4      0x378 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
                                       0x8242d (size before relaxing)
- .debug_str     0x000000000008d619      0x366 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.o
+ .debug_str     0x000000000008d61c      0x366 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.o
                                       0x823de (size before relaxing)
- .debug_str     0x000000000008d97f      0x3c4 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_can.o
+ .debug_str     0x000000000008d982      0x3c4 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_can.o
                                       0x824fa (size before relaxing)
- .debug_str     0x000000000008dd43      0x26c ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.o
+ .debug_str     0x000000000008dd46      0x26c ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.o
                                       0x82379 (size before relaxing)
- .debug_str     0x000000000008dfaf      0x297 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.o
+ .debug_str     0x000000000008dfb2      0x297 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.o
                                       0x82080 (size before relaxing)
- .debug_str     0x000000000008e246       0xd4 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_iwdg.o
+ .debug_str     0x000000000008e249       0xd4 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_iwdg.o
                                       0x81dbc (size before relaxing)
- .debug_str     0x000000000008e31a      0x229 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.o
+ .debug_str     0x000000000008e31d      0x229 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.o
                                       0x82129 (size before relaxing)
- .debug_str     0x000000000008e543       0x84 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.o
+ .debug_str     0x000000000008e546       0x84 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.o
                                       0x81e79 (size before relaxing)
 
 .debug_frame    0x0000000000000000     0x28b4
