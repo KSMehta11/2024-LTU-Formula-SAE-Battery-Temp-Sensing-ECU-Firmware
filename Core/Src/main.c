@@ -53,7 +53,7 @@ ECU_StateType ecuState;
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define SEGMENT_ID (0x01U)
+#define SEGMENT_ID (0x03U)
 
 #define DISCHARGE_TEMP_MAX_LIMIT 60
 #define DISCHARGE_TEMP_MIN_LIMIT -20
@@ -259,7 +259,7 @@ int main(void)
 		  {
 			  syncOneFlag = true;
 
-			  //syncOneTime = HAL_GetTick();
+			  syncOneTime = HAL_GetTick();
 		  }
 		  else if (rxHeaderFIFO0.StdId == TS_ECU_SYNC_RX2_CANID && (((dataFIFO0[0] & (0xFFU)) == (0x00U)) || ((dataFIFO0[0] & (0xFFU)) == SEGMENT_ID)))
 		  {
@@ -492,29 +492,52 @@ int main(void)
 
 		  if (SEGMENT_ID == (0x01U))
 		  {
-			  TS_ECU1_SendDiagnosticData(&tx1_t);
+			  if (HAL_GetTick() - syncOneTime > SYNC_TIME_SHIFT_ECU1)
+			  {
+				  TS_ECU1_SendDiagnosticData(&tx1_t);
+
+				  syncOneFlag = false;
+			  }
 		  }
 		  else if (SEGMENT_ID == (0x02U))
 		  {
 
-			  TS_ECU2_SendDiagnosticData(&tx1_t);
+			  if (HAL_GetTick() - syncOneTime > SYNC_TIME_SHIFT_ECU2)
+			  {
+				  TS_ECU2_SendDiagnosticData(&tx1_t);
+
+				  syncOneFlag = false;
+			  }
 		  }
 		  else if (SEGMENT_ID == (0x03U))
 		  {
 
-			  TS_ECU3_SendDiagnosticData(&tx1_t);
+			  if (HAL_GetTick() - syncOneTime > SYNC_TIME_SHIFT_ECU3)
+			  {
+				  TS_ECU3_SendDiagnosticData(&tx1_t);
+
+				  syncOneFlag = false;
+			  }
 		  }
 		  else if (SEGMENT_ID == (0x04U))
 		  {
 
-			  TS_ECU4_SendDiagnosticData(&tx1_t);
+			  if (HAL_GetTick() - syncOneTime > SYNC_TIME_SHIFT_ECU4)
+			  {
+				  TS_ECU4_SendDiagnosticData(&tx1_t);
+
+				  syncOneFlag = false;
+			  }
 		  }
 		  else
 		  {
-			  TS_ECU4_SendDiagnosticData(&tx1_t);
-		  }
+			  if (HAL_GetTick() - syncOneTime > SYNC_TIME_SHIFT_ECU5)
+			  {
+				  TS_ECU5_SendDiagnosticData(&tx1_t);
 
-		  syncOneFlag = false;
+				  syncOneFlag = false;
+			  }
+		  }
 	  }
 
 	  // Sync Two Response
